@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ru.usb.multithreading.flows.Executers;
+import ru.usb.multithreading.restclient.StudyRest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,12 @@ public class MultiThreadingApplication implements CommandLineRunner {
     Logger logger = LoggerFactory.getLogger(MultiThreadingApplication.class);
 
 
+	@Autowired
+	StudyRest studyRest;
+
+	@Autowired
+	Executers  executers;
+
     public static void main(String[] args) {
         SpringApplication.run(MultiThreadingApplication.class, args);
 
@@ -25,6 +33,22 @@ public class MultiThreadingApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+		logger.info("Executers start");
+	    executers.getTask("https://jsonplaceholder.typicode.com/posts/1");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/2");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/3");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/4");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/5");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/6");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/7");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/7");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts");
+		executers.getTask("https://jsonplaceholder.typicode.com/comments?postId=1");
+		executers.getTask("https://jsonplaceholder.typicode.com/posts/1/comments");
+		logger.info("Executers stop");
+
+/*
 		//Кол-во потоков задаем
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
@@ -34,15 +58,13 @@ public class MultiThreadingApplication implements CommandLineRunner {
 		//Видео по задаче на YouTube
         logger.info("URL::https://www.youtube.com/watch?v=GtHe_wzJsWo");
 
-		String test = "Fragile23:\u0027 'symbol";
+		String s = studyRest.getREcs("https://jsonplaceholder.typicode.com/posts/1/comments");
+		//https://jsonplaceholder.typicode.com/comments?postId=1
+		//https://jsonplaceholder.typicode.com/posts
+		//https://jsonplaceholder.typicode.com/posts/1
 
-		logger.info("test до:{}", test);
-		String s = "\u0027";
-		if (test.contains(s)){
-			logger.info("В строке есть символ \\");
-			test = test.replaceAll(s, "");
-					logger.info("test после:{}", test);
-		}
+
+		logger.info("s={}", s);
 
         logger.info("---------------Старт-----------------");
 
@@ -95,6 +117,7 @@ public class MultiThreadingApplication implements CommandLineRunner {
 		//Обязательно закрытие потоков
 		executorService.shutdown();
 		logger.info("---------------Стоп -----------------");
+*/
 
 	}
 }
